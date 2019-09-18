@@ -30,6 +30,7 @@ function comenzarJuego() {
     console.log("Comienza el juego");
     player.score = 0;
     player.turno = 0;
+    console.log("Comienza el turno " + player.turno);
     startImagen(player.turno);
 }
 
@@ -37,6 +38,10 @@ function startImagen(i) {
     console.log("Starting image...");
     let img = document.createElement("img");
     img.src = data.data[i].imagen;
+    let imagenActual = areaJuego.imagen.firstChild;
+    if (imagenActual != null) {
+        areaJuego.imagen.removeChild(imagenActual);
+    }
     areaJuego.imagen.appendChild(img);
     areaJuego.botones[2].setAttribute("class", "invisible");
     añadirMarcadorImagen(i);
