@@ -1,6 +1,7 @@
 let map;
 let marker;
 let markerImagen = {};
+let circulos = [];
 const player = {};
 const areaJuego = {};
 const data = {"data": [
@@ -27,9 +28,10 @@ function handleBtn(e) {
     }
 }
 
-function updateInfo(distancia) {
-    areaJuego.info.innerHTML = "La distancia entre puntos es: " + distancia
-        + "<br>" + "mi puntuación es: ";
+function updateInfo(distancia, puntuacion) {
+    areaJuego.info.innerHTML = "La distancia entre los puntos es: " + distancia
+        + "<br>" + "La puntuación total es: " + player.score + "<br>" +
+        "Este turno has puntuado: " + puntuacion;
 }
 
 function comenzarJuego() {
@@ -114,15 +116,53 @@ function confirmar() {
     let longitudEleccion = posicionEleccion.lng();
     let distancia = getDistanceFromLatLonInKm(latitudObjetivo, longitudObjetivo, 
         latitudEleccion, longitudEleccion);
-    updateInfo(distancia);
+
+    let colores = ["AFEEEE", "FFFFEO", "DDA0DD", "C39B3"];
+    let radios = [1000, 5000, 10000, 20000]
+    let circulo;
+    for (i = 0; i < 4; i++) {
+        circulo = new google.maps.Circle({
+            fillColor: colores[i],
+            fillOpacity: 0.35,
+            map: map,
+            center: new google.maps.LatLng(latitudObjetivo, longitudObjetivo), 
+            radius: radios[i] 
+        });
+        circulos.push(circulo);
+    }
+
+    let puntuacion;
+    if (distancia < 1) {
+        player.score += 10;
+        puntuacion = 10
+    } else if (distancia < 5) {
+        console.log(distancia);
+        player.score += 5;
+        puntuacion = 5;
+    } else if (5 < distancia && distancia < 10) {
+        player.score += 3
+        puntuacion = 3;
+    } else if (10 < distancia && distancia < 20) {
+        player.score += 1;
+        puntuacion = 1;
+    }  else {
+        puntuacion = 0;
+    }
+
+    updateInfo(distancia, puntuacion);
 }
 
 function siguiente() {
+    console.log(circulos);
     console.log("Siguiente");
     if (marker && markerImagen != null) {
         marker.setMap(null);
         markerImagen.setMap(null);
     }
+
+    circulos.forEach(function (circulo) {
+        circulo.setMap(null);
+    })
 
     player.turno += 1;
     console.log(player.turno);
