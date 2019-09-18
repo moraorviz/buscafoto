@@ -15,6 +15,7 @@ areaJuego.botones = Array.from(document.querySelectorAll('.boton'));
 areaJuego.botones.forEach(function (item) {
     item.addEventListener('click', handleBtn);
 });
+areaJuego.info = document.querySelector('.info');
 
 function handleBtn(e) {
     if (e.target.classList.contains("comenzar")) {
@@ -24,6 +25,11 @@ function handleBtn(e) {
     } else {
         siguiente();
     }
+}
+
+function updateInfo(distancia) {
+    areaJuego.info.innerHTML = "La distancia entre puntos es: " + distancia
+        + "<br>" + "mi puntuación es: ";
 }
 
 function comenzarJuego() {
@@ -39,9 +45,11 @@ function startImagen(i) {
     let img = document.createElement("img");
     img.src = data.data[i].imagen;
     let imagenActual = areaJuego.imagen.firstChild;
+
     if (imagenActual != null) {
         areaJuego.imagen.removeChild(imagenActual);
     }
+
     areaJuego.imagen.appendChild(img);
     areaJuego.botones[2].setAttribute("class", "invisible");
     añadirMarcadorImagen(i);
@@ -106,7 +114,7 @@ function confirmar() {
     let longitudEleccion = posicionEleccion.lng();
     let distancia = getDistanceFromLatLonInKm(latitudObjetivo, longitudObjetivo, 
         latitudEleccion, longitudEleccion);
-    console.log(distancia);
+    updateInfo(distancia);
 }
 
 function siguiente() {
