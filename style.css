@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 10px;
-    grid-auto-rows: minmax(100px, auto);
+    grid-auto-rows: 100px; 
 }
 
 .box {
@@ -22,11 +22,35 @@
 }
 
 .boton {
+    text-align: center;
+}
+
+.confirmar {
     grid-column: 3;
-    grid-row: 4 
+    grid-row: 4;
+}
+
+.siguiente {
+    grid-column: 3;
+    grid-row: 5;
+}
+
+.comenzar {
+    grid-column: 1;
+    grid-row: 6;
 }
 
 .info {
     grid-column: 1 / 3;
-    grid-row: 4;
+    grid-row: 4 / 6;
+}
+
+.invisible {
+    display: none;
+}
+
+img {
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
